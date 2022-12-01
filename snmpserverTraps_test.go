@@ -160,7 +160,7 @@ func (suite *TrapTests) TestTraps() {
 
 		trap := gosnmp.SnmpTrap{
 			Variables: []gosnmp.SnmpPDU{
-				gosnmp.SnmpPDU{
+				{
 					Name:  ".1.2.4.1",
 					Type:  gosnmp.OctetString,
 					Value: ".1.3.6.1.6.3.1.1.5.1",
