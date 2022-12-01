@@ -1,10 +1,18 @@
 package GoSNMPServer
 
-import "testing"
-import "github.com/stretchr/testify/assert"
+import (
+	"testing"
 
-func TestHelper_oidToByteString(t *testing.T) {
-	oidToByteString("1.2.3.4.5")
+	"github.com/stretchr/testify/assert"
+)
+
+func TestHelper_oidLess(t *testing.T) {
+	assert.True(t, oidLess("1.2", "1.2.3"))
+	assert.False(t, oidLess("1.2.3", "1.2"))
+	assert.True(t, oidLess("1.2.100000", "1.2.100001"))
+	assert.False(t, oidLess("1.2.100000", "1.2.100000"))
+	assert.False(t, oidLess("1.2.100001", "1.2.100000"))
+
 }
 
 func TestHelper_IsValidObjectIdentifier(t *testing.T) {

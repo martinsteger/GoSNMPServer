@@ -1,10 +1,13 @@
 package GoSNMPServer
 
-import "strings"
-import "fmt"
-import "sort"
-import "github.com/slayercat/gosnmp"
-import "github.com/pkg/errors"
+import (
+	"fmt"
+	"sort"
+	"strings"
+
+	"github.com/pkg/errors"
+	"github.com/slayercat/gosnmp"
+)
 
 type SubAgent struct {
 	// ContextName selects from SNMPV3 ContextName or SNMPV1/V2c community for switch from SubAgent...
@@ -442,14 +445,11 @@ func (t *SubAgent) serveSetRequest(i *gosnmp.SnmpPacket) (*gosnmp.SnmpPacket, er
 }
 
 func (t *SubAgent) getForPDUValueControl(oid string) (*PDUValueControlItem, int) {
-	toQuery := oidToByteString(oid)
 	i := sort.Search(len(t.OIDs), func(i int) bool {
-		thisOid := oidToByteString(t.OIDs[i].OID)
-		return thisOid >= toQuery
+		return oidLess(oid, t.OIDs[i].OID)
 	})
 	if i < len(t.OIDs) {
-		thisOid := oidToByteString(t.OIDs[i].OID)
-		if thisOid == toQuery {
+		if oid == t.OIDs[i].OID {
 			return t.OIDs[i], i
 		}
 	}

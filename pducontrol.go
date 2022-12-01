@@ -123,9 +123,7 @@ func (x byOID) Len() int {
 }
 
 func (x byOID) Less(i, j int) bool {
-	stripedI := oidToByteString(x[i].OID)
-	stripedJ := oidToByteString(x[j].OID)
-	return stripedI < stripedJ
+	return oidLess(x[i].OID, x[j].OID)
 }
 
 func (x byOID) Swap(i, j int) {
